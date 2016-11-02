@@ -5,12 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShadowverseSwitcher"
 		xmlns:viewmodels="clr-namespace:ShadowverseSwitcher.ViewModels"
+		
+				   xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+				   xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="350" Width="525">
 	<Window.DataContext>
 		<viewmodels:MainWindowViewModel/>
 	</Window.DataContext>
-    <Grid>
-        
-    </Grid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<metro2:CallMethodButton Content="섀도우버스 설정 초기화"
+								 MethodName="InitSetting"
+								 MinWidth="110"
+								 Padding="30,6"
+								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
+	</Grid>
 </Window>
