@@ -132,6 +132,7 @@ namespace ShadowServant.Models
 					//	File.WriteAllLines("test.reg", output);
 					key.Close();
 				}
+				temp.Created = DateTime.Now;
 				LoadedList.Add(temp);
 				this.ChangeList();
 				MainNotifier.Current.Show(App.ProductInfo.Title, "현재 섀도우버스 계정의 연동정보를 저장하였습니다", null);
