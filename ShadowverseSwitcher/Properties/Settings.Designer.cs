@@ -22,5 +22,14 @@ namespace ShadowverseSwitcher.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("99")]
+        public int CustomSoundVolume {
+            get {
+                return ((int)(this["CustomSoundVolume"]));
+            }
+        }
     }
 }
