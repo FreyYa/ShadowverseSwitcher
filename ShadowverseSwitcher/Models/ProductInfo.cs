@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ShadowverseSwitcher.Models
+namespace ShadowServant.Models
 {
 	public class ProductInfo
 	{

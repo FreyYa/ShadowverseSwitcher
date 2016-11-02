@@ -1,16 +1,14 @@
 ﻿using Livet;
-using ShadowverseSwitcher.ViewModels;
+using ShadowServant.Models;
+using ShadowServant.Models.Notifier;
+using ShadowServant.ViewModels;
+using ShadowServant.Views;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
-namespace ShadowverseSwitcher
+namespace ShadowServant
 {
 	/// <summary>
 	/// App.xaml에 대한 상호 작용 논리
@@ -19,6 +17,7 @@ namespace ShadowverseSwitcher
 	{
 		static string MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 		public static MainWindowViewModel ViewModelRoot { get; private set; }
+		public static ProductInfo ProductInfo { get; private set; }
 
 		static App()
 		{
@@ -27,7 +26,7 @@ namespace ShadowverseSwitcher
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-
+			ProductInfo = new ProductInfo();
 			this.DispatcherUnhandledException += (sender, args) =>
 			{
 				ReportException(sender, args.Exception);
@@ -35,10 +34,15 @@ namespace ShadowverseSwitcher
 			};
 
 			DispatcherHelper.UIDispatcher = this.Dispatcher;
-
+			MainNotifier.Current.Initialize();
 			ViewModelRoot = new MainWindowViewModel();
 			this.MainWindow = new MainWindow { DataContext = ViewModelRoot };
 			this.MainWindow.Show();
+		}
+		protected override void OnExit(ExitEventArgs e)
+		{
+			base.OnExit(e);
+			MainNotifier.Current.Dispose();
 		}
 		#region 리포트
 		private static void ReportException(object sender, Exception exception)

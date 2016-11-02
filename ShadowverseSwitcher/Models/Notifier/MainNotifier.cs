@@ -1,4 +1,4 @@
-﻿using ShadowverseSwitcher.Properties;
+﻿using ShadowServant.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ShadowverseSwitcher.Models.Notifier
+namespace ShadowServant.Models.Notifier
 {
 	public class MainNotifier
 	{
@@ -43,7 +43,7 @@ namespace ShadowverseSwitcher.Models.Notifier
 		}
 		public void Initialize()
 		{
-			const string iconUri = "pack://application:,,,/ShadowverseSwitcher;Component/Assets/app.ico";
+			const string iconUri = "pack://application:,,,/ShadowServant;Component/Assets/app.ico";
 
 			Uri uri;
 			if (!Uri.TryCreate(iconUri, UriKind.Absolute, out uri))

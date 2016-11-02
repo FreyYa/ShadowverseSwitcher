@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AppSettings= ShadowverseSwitcher.Properties.Settings;
+using AppSettings= ShadowServant.Properties.Settings;
 
-namespace ShadowverseSwitcher.Models.Notifier
+namespace ShadowServant.Models.Notifier
 {
 	public class CustomSound
 	{

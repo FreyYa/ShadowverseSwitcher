@@ -1,10 +1,10 @@
-﻿<Window x:Class="ShadowverseSwitcher.MainWindow"
+﻿<Window x:Class="ShadowServant.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ShadowverseSwitcher"
-		xmlns:viewmodels="clr-namespace:ShadowverseSwitcher.ViewModels"
+        xmlns:local="clr-namespace:ShadowServant"
+		xmlns:viewmodels="clr-namespace:ShadowServant.ViewModels"
 		
 				   xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
 				   xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
@@ -16,14 +16,24 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
+			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<metro2:CallMethodButton Content="섀도우버스 설정 초기화"
+		<StackPanel>
+			<metro2:CallMethodButton Content="섀도우버스 데이터 초기화"
 								 MethodName="InitSetting"
-								 MinWidth="110"
+								 MinWidth="220"
 								 Padding="30,6"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
+			<metro2:CallMethodButton Content="섀도우버스 현재 데이터 저장"
+								 MethodName="SaveSetting"
+								 MinWidth="220"
+								 Padding="30,6"
+								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
+		</StackPanel>
+		
+		
 	</Grid>
 </Window>

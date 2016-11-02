@@ -10,7 +10,7 @@ using Livet.Messaging;
 using Livet.Messaging.Windows;
 using MetroTrilithon.Threading.Tasks;
 
-namespace ShadowverseSwitcher.ViewModels
+namespace ShadowServant.ViewModels
 {
 	public class WindowViewModel : ViewModel
 	{
