@@ -16,15 +16,17 @@ using System.Windows.Shapes;
 namespace ShadowServant.Views
 {
 	/// <summary>
-	/// MainWindow.xaml에 대한 상호 작용 논리
+	/// AccountCreateWindow.xaml에 대한 상호 작용 논리
 	/// </summary>
-	public partial class MainWindow
+	public partial class AccountCreateWindow
 	{
-		public static MainWindow Current { get; private set; }
-		public MainWindow()
+		public static AccountCreateWindow Current { get; private set; }
+		public AccountCreateWindow()
 		{
 			InitializeComponent();
 			Current = this;
+
+			MainWindow.Current.Closed += (sender, args) => this.Close();
 		}
 	}
 }

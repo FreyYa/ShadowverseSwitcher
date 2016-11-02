@@ -1,18 +1,30 @@
 ﻿<metro:MetroWindow x:Class="ShadowServant.Views.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ShadowServant"
-		xmlns:viewmodels="clr-namespace:ShadowServant.ViewModels"
-		Background="{DynamicResource BackgroundBrushKey}"
-		xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
-		xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
-        mc:Ignorable="d"
-        Title="{Binding Title}" Height="350" Width="520">
+				   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+				   xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+				   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				   xmlns:local="clr-namespace:ShadowServant"
+				   xmlns:viewmodels="clr-namespace:ShadowServant.ViewModels"
+				   xmlns:views="clr-namespace:ShadowServant.Views"
+				   Background="{DynamicResource ThemeBrushKey}"
+				   Foreground="{DynamicResource ActiveForegroundBrushKey}"
+				   xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+				   xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
+				   mc:Ignorable="d"
+				   Title="{Binding Title}" Height="350" Width="520">
 	<metro:MetroWindow.DataContext>
 		<viewmodels:MainWindowViewModel/>
 	</metro:MetroWindow.DataContext>
+	<i:Interaction.Triggers>
+		<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+										 MessageKey="Show/AccountCreateWindow">
+			<livet:TransitionInteractionMessageAction Mode="NewOrActive"
+													  WindowType="{x:Type views:AccountCreateWindow}"
+													  IsOwned="False" />
+		</livet:InteractionMessageTrigger>
+	</i:Interaction.Triggers>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
