@@ -25,10 +25,6 @@ namespace ShadowServant.Models
 		/// </summary>
 		public string Name { get; set; }
 		/// <summary>
-		/// 인덱스
-		/// </summary>
-		public int Index { get; set; }
-		/// <summary>
 		/// 세이브 데이터 생성일시
 		/// </summary>
 		public DateTime Created { get; set; }
