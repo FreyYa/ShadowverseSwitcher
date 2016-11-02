@@ -6,6 +6,7 @@ using ShadowServant.Views;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Windows;
 
 namespace ShadowServant

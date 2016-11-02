@@ -8,15 +8,36 @@ using MetroTrilithon.Mvvm;
 using Microsoft.Win32;
 using ShadowServant.Models.Notifier;
 using System.IO;
+using ShadowServant.Models;
 
 namespace ShadowServant.ViewModels
 {
 	public class MainWindowViewModel : WindowViewModel
 	{
+		#region Selected
+		private Account _Selected;
+		public Account Selected
+		{
+			get { return this._Selected; }
+			set
+			{
+				if (this._Selected == value) return;
+				this._Selected = value;
+				this.RaisePropertyChanged();
+			}
+		}
+		#endregion
+
 		public MainWindowViewModel()
 		{
 			this.Title = "Shadow Servant!";
+			this.AccountList = new List<Account>();
+#if DEBUG
+			this.AccountList.Add(new Account { Name = "ameri08", Created = DateTime.Now });
+			this.AccountList.Add(new Account { Name = "freyya312", Created = DateTime.Now.AddDays(-1) });
+#endif
 		}
+		public List<Account> AccountList { get; set; }
 		public void InitSetting()
 		{
 			if (Registry.CurrentUser.OpenSubKey(@"Software\Cygames\Shadowverse", false) != null)
@@ -77,27 +98,9 @@ namespace ShadowServant.ViewModels
 			
 			MainNotifier.Current.Show(App.ProductInfo.Title, "섀도우버스의 현재 계정연동 및 모든 설정정보를 저장하였습니다", null);
 		}
-		public string ConvertStringToHex(string asciiString)
+		public void LoadSetting()
 		{
-			string hex = "";
-			foreach (char c in asciiString)
-			{
-				int tmp = c;
-				hex += String.Format("{0:x2}", (uint)System.Convert.ToUInt32(tmp.ToString()));
-			}
 
-			return hex;
-		}
-		public string ConvertHexToString(string HexValue)
-		{
-			string StrValue = "";
-			while (HexValue.Length > 0)
-			{
-				StrValue += System.Convert.ToChar(System.Convert.ToUInt32(HexValue.Substring(0, 2), 16)).ToString();
-				HexValue = HexValue.Substring(2, HexValue.Length - 2);
-			}
-
-			return StrValue;
 		}
 	}
 }

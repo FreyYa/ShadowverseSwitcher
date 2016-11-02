@@ -12,6 +12,7 @@
 				<ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Accents/Purple.xaml" />
 
 				<ResourceDictionary Source="pack://application:,,,/MetroTrilithon.Desktop;component/Styles/Controls.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/ShadowServant;component/Styles/Controls.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
