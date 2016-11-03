@@ -31,7 +31,16 @@ namespace ShadowServant.Models
 				this._AccountName = value;
 			}
 		}
-
+		private string _Memo;
+		public string Memo
+		{
+			get { return this._Memo; }
+			set
+			{
+				if (this._Memo == value) return;
+				this._Memo = value;
+			}
+		}
 		private string _ErrorMessage;
 		public string ErrorMessage
 		{
@@ -60,12 +69,13 @@ namespace ShadowServant.Models
 			try
 			{
 				Account temp = new Account();
-				if (LoadedList.Any(x => x.Name == AccountName))
+				if (LoadedList.Any(x => x.SteamName == AccountName))
 				{
 					this.ErrorMessage = "동일한 계정명이 이미 존재합니다";
 					return false;
 				}
-				temp.Name = AccountName;
+				temp.SteamName = this.AccountName;
+				temp.Memo = this.Memo;
 				if (Registry.CurrentUser.OpenSubKey(@"Software\Cygames\Shadowverse", false) != null)
 				{
 					var key = Registry.CurrentUser.OpenSubKey(@"Software\Cygames\Shadowverse", false);
@@ -81,7 +91,7 @@ namespace ShadowServant.Models
 					}
 					if (LoadedList.Any(x => x.NnB.SequenceEqual(nnb) && x.MHx5cg.SequenceEqual(mhx) && x.M3F1YS.SequenceEqual(m3f)))
 					{
-						this.ErrorMessage = "이미 저장되어있는 계정정보입니다: \n계정명: "+LoadedList.Where(x => x.NnB.SequenceEqual(nnb) && x.MHx5cg.SequenceEqual(mhx) && x.M3F1YS.SequenceEqual(m3f)).FirstOrDefault().Name;
+						this.ErrorMessage = "이미 저장되어있는 계정정보입니다: \n계정명: "+LoadedList.Where(x => x.NnB.SequenceEqual(nnb) && x.MHx5cg.SequenceEqual(mhx) && x.M3F1YS.SequenceEqual(m3f)).FirstOrDefault().SteamName;
 						return false;
 					}
 					temp.MHx5cg = mhx;

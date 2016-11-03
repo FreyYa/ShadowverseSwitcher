@@ -21,9 +21,13 @@ namespace ShadowServant.Models
 		/// </summary>
 		public byte[] NnB { get; set; }
 		/// <summary>
-		/// 계정명, 혹은 메모
+		/// 스팀계정명
 		/// </summary>
-		public string Name { get; set; }
+		public string SteamName { get; set; }
+		/// <summary>
+		/// 메모사항
+		/// </summary>
+		public string Memo { get; set; }
 		/// <summary>
 		/// 세이브 데이터 생성일시
 		/// </summary>

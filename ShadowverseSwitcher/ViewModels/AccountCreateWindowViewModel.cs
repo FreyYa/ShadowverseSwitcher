@@ -19,7 +19,22 @@ namespace ShadowServant.ViewModels
 			get { return Core.Current.FileManager.AccountName; }
 			set
 			{
+				if (Core.Current.FileManager.AccountName == value) return;
 				Core.Current.FileManager.AccountName = value;
+				RaisePropertyChanged();
+			}
+		}
+		#endregion
+
+		#region Memo
+		public string Memo
+		{
+			get { return Core.Current.FileManager.Memo; }
+			set
+			{
+				if (Core.Current.FileManager.Memo == value) return;
+				Core.Current.FileManager.Memo = value;
+				RaisePropertyChanged();
 			}
 		}
 		#endregion

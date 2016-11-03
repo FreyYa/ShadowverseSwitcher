@@ -13,7 +13,7 @@
 				   xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
 				   xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
 				   mc:Ignorable="d"
-				   Title="{Binding Title}" Height="350" Width="520">
+				   Title="{Binding Title}" Height="350" Width="575">
 	<metro:MetroWindow.DataContext>
 		<viewmodels:MainWindowViewModel/>
 	</metro:MetroWindow.DataContext>
@@ -29,6 +29,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -48,9 +49,10 @@
 		<!--제목표시줄 끝-->
 		<ListView ItemsSource="{Binding AccountList,Mode=OneWay}"
 				  Grid.Row="1"
+				  Grid.ColumnSpan="2"
 				  SelectedItem="{Binding Selected}"
 				  ItemContainerStyle="{DynamicResource GridViewItemContainerStyleKey}"
-				  Width="270" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+				  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
 			<ListView.Resources>
 				<Style TargetType="{x:Type TextBlock}">
 					<Setter Property="Margin"
@@ -102,10 +104,21 @@
 						</GridViewColumnHeader>
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock FontFamily="Segoe UI" Margin="6,3,0,3" Text="{Binding Name}"/>
+								<TextBlock FontFamily="Segoe UI" Margin="6,3,0,3" Text="{Binding SteamName}"/>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
+					<GridViewColumn Width="300">
+						<GridViewColumnHeader>
+							<TextBlock Text="메모" FontFamily="Segoe UI"/>
+						</GridViewColumnHeader>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock FontFamily="Segoe UI" Margin="6,3,0,3" Text="{Binding Memo}"/>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+
 					<GridViewColumn Width="150">
 						<GridViewColumnHeader>
 							<TextBlock Text="저장일시" FontFamily="Segoe UI"/>
@@ -119,27 +132,27 @@
 				</GridView>
 			</ListView.View>
 		</ListView>
-		<StackPanel Grid.Column="1" Grid.Row="1">
-			<metro2:CallMethodButton Content="섀도우버스 데이터 초기화"
+		<StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+			<metro2:CallMethodButton Content="데이터 초기화"
 								 MethodName="InitSetting"
-								 MinWidth="220"
+								 MinWidth="110"
 								 Padding="30,6"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
-			<metro2:CallMethodButton Content="섀도우버스 현재 데이터 저장"
+			<metro2:CallMethodButton Content="현재 데이터 저장"
 								 MethodName="SaveSetting"
-								 MinWidth="220"
+								 MinWidth="100"
 								 Padding="30,6"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
 			<metro2:CallMethodButton Content="선택된 데이터 로드"
 								 MethodName="LoadSetting"
-								 MinWidth="220"
+								 MinWidth="110"
 								 Padding="30,6"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
 		</StackPanel>
-		<StackPanel Grid.Row="2" Margin="5" Grid.ColumnSpan="2">
+		<StackPanel Grid.Row="3" Margin="5" Grid.ColumnSpan="2">
 			<TextBlock Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
 				<Run Text="현재 선택된 계정: "/>
-				<Run Text="{Binding Selected.Name}"/>
+				<Run Text="{Binding Selected.SteamName}"/>
 				<Run Text="    세이브 생성 일시: "/>
 				<Run Text="{Binding Selected.Created}"/>
 			</TextBlock>

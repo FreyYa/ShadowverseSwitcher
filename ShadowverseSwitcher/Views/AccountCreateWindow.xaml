@@ -14,7 +14,7 @@
 				   Foreground="{DynamicResource ActiveForegroundBrushKey}"
 				   WindowStartupLocation="CenterScreen"
 				   Topmost="True"
-				   Height="200" Width="400">
+				   Height="240" Width="400">
 	<metro:MetroWindow.DataContext>
 		<viewmodels:AccountCreateWindowViewModel/>
 	</metro:MetroWindow.DataContext>
@@ -23,18 +23,18 @@
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<TextBlock VerticalAlignment="Center" Margin="20,0">
 			<Run Text="추가할 계정명을 입력하고 확인을 눌러주세요"/>
-			<LineBreak/>
-			<Run Text="꼭 계정명이 아니더라도 상관없습니다.(예: 케르베로스2, 오딘1)"/>
 		</TextBlock>
 
 		<TextBlock Text="{Binding Message}" Margin="20,3" Grid.Row="1"/>
 
-		<metro:PromptTextBox Prompt="계정명 입력" Text="{Binding AccountName}" Grid.Row="2" Margin="20,5"/>
-		<StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right"
+		<metro:PromptTextBox Prompt="스팀 계정명 입력" Text="{Binding AccountName}" Grid.Row="2" Margin="20,5"/>
+		<metro:PromptTextBox Prompt="메모 입력" Text="{Binding Memo}" Grid.Row="3" Margin="20,5"/>
+		<StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Right"
 					Margin="10">
 			<metro2:CallMethodButton Margin="10,5,0,5"
 									 Content="확인"
