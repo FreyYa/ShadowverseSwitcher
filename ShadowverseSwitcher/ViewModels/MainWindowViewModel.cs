@@ -42,22 +42,41 @@ namespace ShadowServant.ViewModels
 				  switch (Core.Current.PopupManage.Popup)
 				  {
 					  case PopupKind.Init:
-						  if (Core.Current.PopupManage.IsLeft)
+						  if (!Core.Current.PopupManage.IsUsed)
 						  {
+							  Core.Current.PopupManage.IsUsed = true;
 							  if (Registry.CurrentUser.OpenSubKey(@"Software\Cygames\Shadowverse", false) != null)
 							  {
-								  Registry.CurrentUser.DeleteSubKeyTree(@"Software\Cygames\Shadowverse");
-								  MainNotifier.Current.Show(App.ProductInfo.Title, "섀도우버스의 계정연동 및 모든 설정정보를 초기화하였습니다", null);
+								  if (Core.Current.PopupManage.IsLeft)
+								  {
+
+									  Registry.CurrentUser.DeleteSubKeyTree(@"Software\Cygames\Shadowverse");
+									  MainNotifier.Current.Show(App.ProductInfo.Title, "섀도우버스의 계정연동 및 모든 설정정보를 초기화하였습니다", null);
+
+								  }
+								  else
+								  {
+									  var key = Registry.CurrentUser.OpenSubKey(@"Software\Cygames\Shadowverse", true);
+									  key.DeleteValue("M3F1YSNkOnF0_h4073495316");
+									  key.DeleteValue("MHx5cg==_h786395497");
+									  key.DeleteValue("NnB/ZDJpMHx5cg==_h354593472");
+									  key.DeleteValue("HOME_CARD_INDEX_h3315159488");
+									  key.DeleteValue("LAST_BATTLE_DECK_ID_h4121485982");
+									  key.DeleteValue("LAST_BATTLE_IS_DEFDECK_h50217934");
+									  key.DeleteValue("LAST_BATTLE_LEADER_ID_h581834284");
+									  key.DeleteValue("LAST_SELECT_DECK_ID_h4260907292");
+									  key.DeleteValue("LAST_SELECT_IS_DEFDECK_h1993347724");
+									  key.DeleteValue("LastTraceLog1_h3744039899");
+									  key.DeleteValue("LastTraceLog2_h3744039896");
+
+									  MainNotifier.Current.Show(App.ProductInfo.Title, "로컬 계정연동 데이터 삭제에 성공했습니다", null);
+								  }
 							  }
 							  else MainNotifier.Current.Show(App.ProductInfo.Title, "섀도우버스의 설정정보가 없습니다", null);
 						  }
-						  else
-						  {
-							  MainNotifier.Current.Show(App.ProductInfo.Title, "부분데이터 삭제에 성공했습니다", null);
-						  }
 						  break;
 					  case PopupKind.Load:
-						  if(!Core.Current.PopupManage.IsUsed)
+						  if (!Core.Current.PopupManage.IsUsed)
 						  {
 							  Core.Current.PopupManage.IsUsed = true;
 							  if (Core.Current.PopupManage.IsLeft)
@@ -70,6 +89,16 @@ namespace ShadowServant.ViewModels
 										  key.SetValue("M3F1YSNkOnF0_h4073495316", Selected.M3F1YS, RegistryValueKind.Binary);
 										  key.SetValue("MHx5cg==_h786395497", Selected.MHx5cg, RegistryValueKind.Binary);
 										  key.SetValue("NnB/ZDJpMHx5cg==_h354593472", Selected.NnB, RegistryValueKind.Binary);
+
+										  key.DeleteValue("HOME_CARD_INDEX_h3315159488");
+										  key.DeleteValue("LAST_BATTLE_DECK_ID_h4121485982");
+										  key.DeleteValue("LAST_BATTLE_IS_DEFDECK_h50217934");
+										  key.DeleteValue("LAST_BATTLE_LEADER_ID_h581834284");
+										  key.DeleteValue("LAST_SELECT_DECK_ID_h4260907292");
+										  key.DeleteValue("LAST_SELECT_IS_DEFDECK_h1993347724");
+										  key.DeleteValue("LastTraceLog1_h3744039899");
+										  key.DeleteValue("LastTraceLog2_h3744039896");
+
 										  key.Close();
 										  MainNotifier.Current.Show(App.ProductInfo.Title, "데이터 로드에 성공했습니다: " + Selected.SteamName, null);
 									  }
@@ -97,9 +126,9 @@ namespace ShadowServant.ViewModels
 			var popup = new DialogWindowViewModel();
 			Core.Current.PopupManage.IsUsed = false;
 			Core.Current.PopupManage.Popup = PopupKind.Init;
-			popup.MainMessage = "데이터를 일괄삭제하시겠습니까?";
-			popup.LeftMessage = "일괄삭제";
-			popup.RightMessage = "계정정보만 삭제";
+			popup.MainMessage = "설정정보를 모두 삭제하시겠습니까?";
+			popup.LeftMessage = "전체삭제";
+			popup.RightMessage = "로컬 계정정보만 삭제";
 			var message = new TransitionMessage(popup, "Show/InitDialog");
 			this.Messenger.RaiseAsync(message);
 		}

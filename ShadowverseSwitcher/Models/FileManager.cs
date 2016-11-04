@@ -22,6 +22,8 @@ namespace ShadowServant.Models
 		public delegate void EventHandler();
 		public EventHandler ChangeList;
 		#endregion
+
+		#region AccountName
 		private string _AccountName;
 		public string AccountName
 		{
@@ -32,6 +34,9 @@ namespace ShadowServant.Models
 				this._AccountName = value;
 			}
 		}
+		#endregion
+
+		#region Memo
 		private string _Memo;
 		public string Memo
 		{
@@ -42,6 +47,9 @@ namespace ShadowServant.Models
 				this._Memo = value;
 			}
 		}
+		#endregion
+
+		#region ErrorMessage
 		private string _ErrorMessage;
 		public string ErrorMessage
 		{
@@ -52,6 +60,9 @@ namespace ShadowServant.Models
 				this._ErrorMessage = value;
 			}
 		}
+		#endregion
+
+		#region LoadedList
 		private List<Account> _LoadedList;
 		public List<Account> LoadedList
 		{
@@ -61,6 +72,7 @@ namespace ShadowServant.Models
 				this._LoadedList = value;
 			}
 		}
+		#endregion
 
 		public string GetSteamID()
 		{
@@ -108,10 +120,14 @@ namespace ShadowServant.Models
 			}
 			return ID;
 		}
-
-		public FileManager()
+		public void Init()
 		{
 			LoadedList = new List<Account>();
+			FileLoad();
+		}
+		private bool FileLoad()
+		{
+			return true;
 		}
 		public bool Save()
 		{
@@ -146,53 +162,12 @@ namespace ShadowServant.Models
 					temp.MHx5cg = mhx;
 					temp.M3F1YS = m3f;
 					temp.NnB = nnb;
-
-					//	var list = key.GetValueNames();
-					//	List<string> output = new List<string>();
-					//	output.Add("Windows Registry Editor Version 5.00");
-					//	output.Add("");
-					//	output.Add("[" + @key.ToString() + "]");
-					//	string input = string.Empty;
-					//	foreach (var item in list)
-					//	{
-					//		if (item == "MHx5cg==_h786395497" || item == "M3F1YSNkOnF0_h4073495316" || item == "NnB/ZDJpMHx5cg==_h354593472")
-					//		{
-					//			var kind = key.GetValueKind(item);
-					//			switch (kind)
-					//			{
-					//				case RegistryValueKind.String:
-					//					break;
-					//				case RegistryValueKind.ExpandString:
-					//					break;
-					//				case RegistryValueKind.Binary:
-					//					byte[] bytelist = (byte[])key.GetValue(item);
-					//					string hex = BitConverter.ToString(bytelist).Replace('-', ',');
-					//					input = "hex:" + hex;
-					//					break;
-					//				case RegistryValueKind.DWord:
-					//					var dword = key.GetValue(item);
-					//					input = "dword:" + String.Format("0x{0:X8}", dword);
-					//					break;
-					//				case RegistryValueKind.MultiString:
-					//					break;
-					//				case RegistryValueKind.QWord:
-					//					break;
-					//				case RegistryValueKind.Unknown:
-					//					break;
-					//				case RegistryValueKind.None:
-					//					break;
-					//				default:
-					//					break;
-					//			}
-					//			output.Add("\"" + item + "\"=" + input);
-					//		}
-
-					//	}
-					//	File.WriteAllLines("test.reg", output);
+					
 					key.Close();
 				}
 				temp.Created = DateTime.Now;
 				LoadedList.Add(temp);
+				//TODO: 바이너리 형태로 파일을 써넣어 저장하는 기능이 필요
 				this.ChangeList();
 				MainNotifier.Current.Show(App.ProductInfo.Title, "현재 섀도우버스 계정의 연동정보를 저장하였습니다", null);
 				AccountCreateWindow.Current.Close();
