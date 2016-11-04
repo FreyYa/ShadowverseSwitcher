@@ -165,6 +165,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\BinReader.cs" />
+    <Compile Include="Models\BinWriter.cs" />
     <Compile Include="Models\Core.cs" />
     <Compile Include="Models\FileManager.cs" />
     <Compile Include="Models\Notifier\CustomSound.cs" />

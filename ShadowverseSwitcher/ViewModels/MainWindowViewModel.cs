@@ -57,17 +57,24 @@ namespace ShadowServant.ViewModels
 								  else
 								  {
 									  var key = Registry.CurrentUser.OpenSubKey(@"Software\Cygames\Shadowverse", true);
-									  key.DeleteValue("M3F1YSNkOnF0_h4073495316");
-									  key.DeleteValue("MHx5cg==_h786395497");
-									  key.DeleteValue("NnB/ZDJpMHx5cg==_h354593472");
-									  key.DeleteValue("HOME_CARD_INDEX_h3315159488");
-									  key.DeleteValue("LAST_BATTLE_DECK_ID_h4121485982");
-									  key.DeleteValue("LAST_BATTLE_IS_DEFDECK_h50217934");
-									  key.DeleteValue("LAST_BATTLE_LEADER_ID_h581834284");
-									  key.DeleteValue("LAST_SELECT_DECK_ID_h4260907292");
-									  key.DeleteValue("LAST_SELECT_IS_DEFDECK_h1993347724");
-									  key.DeleteValue("LastTraceLog1_h3744039899");
-									  key.DeleteValue("LastTraceLog2_h3744039896");
+
+									  var valList = key.GetValueNames().ToList();
+									  if (valList.Any(x => x == "HOME_CARD_INDEX_h3315159488"))
+										  key.DeleteValue("HOME_CARD_INDEX_h3315159488");
+									  if (valList.Any(x => x == "LAST_BATTLE_DECK_ID_h4121485982"))
+										  key.DeleteValue("LAST_BATTLE_DECK_ID_h4121485982");
+									  if (valList.Any(x => x == "LAST_BATTLE_IS_DEFDECK_h50217934"))
+										  key.DeleteValue("LAST_BATTLE_IS_DEFDECK_h50217934");
+									  if (valList.Any(x => x == "LAST_BATTLE_LEADER_ID_h581834284"))
+										  key.DeleteValue("LAST_BATTLE_LEADER_ID_h581834284");
+									  if (valList.Any(x => x == "LAST_SELECT_DECK_ID_h4260907292"))
+										  key.DeleteValue("LAST_SELECT_DECK_ID_h4260907292");
+									  if (valList.Any(x => x == "LAST_SELECT_IS_DEFDECK_h1993347724"))
+										  key.DeleteValue("LAST_SELECT_IS_DEFDECK_h1993347724");
+									  if (valList.Any(x => x == "LastTraceLog1_h3744039899"))
+										  key.DeleteValue("LastTraceLog1_h3744039899");
+									  if (valList.Any(x => x == "LastTraceLog2_h3744039896"))
+										  key.DeleteValue("LastTraceLog2_h3744039896");
 
 									  MainNotifier.Current.Show(App.ProductInfo.Title, "로컬 계정연동 데이터 삭제에 성공했습니다", null);
 								  }
@@ -90,14 +97,23 @@ namespace ShadowServant.ViewModels
 										  key.SetValue("MHx5cg==_h786395497", Selected.MHx5cg, RegistryValueKind.Binary);
 										  key.SetValue("NnB/ZDJpMHx5cg==_h354593472", Selected.NnB, RegistryValueKind.Binary);
 
-										  key.DeleteValue("HOME_CARD_INDEX_h3315159488");
-										  key.DeleteValue("LAST_BATTLE_DECK_ID_h4121485982");
-										  key.DeleteValue("LAST_BATTLE_IS_DEFDECK_h50217934");
-										  key.DeleteValue("LAST_BATTLE_LEADER_ID_h581834284");
-										  key.DeleteValue("LAST_SELECT_DECK_ID_h4260907292");
-										  key.DeleteValue("LAST_SELECT_IS_DEFDECK_h1993347724");
-										  key.DeleteValue("LastTraceLog1_h3744039899");
-										  key.DeleteValue("LastTraceLog2_h3744039896");
+										  var valList = key.GetValueNames().ToList();
+										  if(valList.Any(x=>x== "HOME_CARD_INDEX_h3315159488"))
+											  key.DeleteValue("HOME_CARD_INDEX_h3315159488");
+										  if (valList.Any(x => x == "LAST_BATTLE_DECK_ID_h4121485982"))
+											  key.DeleteValue("LAST_BATTLE_DECK_ID_h4121485982");
+										  if (valList.Any(x => x == "LAST_BATTLE_IS_DEFDECK_h50217934"))
+											  key.DeleteValue("LAST_BATTLE_IS_DEFDECK_h50217934");
+										  if (valList.Any(x => x == "LAST_BATTLE_LEADER_ID_h581834284"))
+											  key.DeleteValue("LAST_BATTLE_LEADER_ID_h581834284");
+										  if (valList.Any(x => x == "LAST_SELECT_DECK_ID_h4260907292"))
+											  key.DeleteValue("LAST_SELECT_DECK_ID_h4260907292");
+										  if (valList.Any(x => x == "LAST_SELECT_IS_DEFDECK_h1993347724"))
+											  key.DeleteValue("LAST_SELECT_IS_DEFDECK_h1993347724");
+										  if (valList.Any(x => x == "LastTraceLog1_h3744039899"))
+											  key.DeleteValue("LastTraceLog1_h3744039899");
+										  if (valList.Any(x => x == "LastTraceLog2_h3744039896"))
+											  key.DeleteValue("LastTraceLog2_h3744039896");
 
 										  key.Close();
 										  MainNotifier.Current.Show(App.ProductInfo.Title, "데이터 로드에 성공했습니다: " + Selected.SteamName, null);

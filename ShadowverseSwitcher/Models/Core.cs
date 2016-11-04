@@ -22,10 +22,14 @@ namespace ShadowServant.Models
 
 		public FileManager FileManager { get; set; }
 		public PopupManage PopupManage { get; set; }
+		public BinWriter BinWriter { get; set; }
+		public BinReader BinReader { get; set; }
 		public Core()
 		{
 			this.FileManager = new FileManager();
 			this.PopupManage = new PopupManage();
+			this.BinReader = new BinReader();
+			this.BinWriter = new BinWriter();
 		}
 	}
 }

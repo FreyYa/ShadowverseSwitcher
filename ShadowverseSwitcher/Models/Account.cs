@@ -8,6 +8,7 @@ namespace ShadowServant.Models
 {
 	public class Account
 	{
+		public byte[] Header { get; set; }
 		/// <summary>
 		/// MHx5cg==_h786395497
 		/// </summary>
