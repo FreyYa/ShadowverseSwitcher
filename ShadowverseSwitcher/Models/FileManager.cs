@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ShadowServant.Models
 {
@@ -60,6 +61,54 @@ namespace ShadowServant.Models
 				this._LoadedList = value;
 			}
 		}
+
+		public string GetSteamID()
+		{
+			string ID = "";
+			string tmp,time;
+			int value_compare=int.MaxValue;
+
+			Dictionary<string, int> list = new Dictionary<string, int>();
+
+			FolderBrowserDialog dialog = new FolderBrowserDialog();
+			dialog.ShowDialog();
+			var path = dialog.SelectedPath;
+			TextReader tr = null;
+			try
+			{
+				tr = new StreamReader(Path.Combine(path, "config", "loginusers.vdf"));
+				try
+				{
+					while (true)
+					{
+						tmp = tr.ReadLine();
+						if (tmp.Contains("AccountName"))
+						{
+							var IDstring = tmp.Split('\"');
+							ID = IDstring[IDstring.Count() - 2];
+							tr.ReadLine();
+							tr.ReadLine();
+							var timestring=tr.ReadLine().Split('\"');
+							time = timestring[timestring.Count() - 2];
+							list.Add(ID, int.Parse(time));
+						}
+					}
+				}
+				catch { }
+			}
+			catch
+			{ Console.WriteLine("Error Reading steam account Info"); }
+			if (tr != null)
+				tr.Close();
+			if (list.Count == 0) return "";
+			foreach (var item in list)
+			{
+				if (item.Value < value_compare)
+					ID = item.Key;
+			}
+			return ID;
+		}
+
 		public FileManager()
 		{
 			LoadedList = new List<Account>();
