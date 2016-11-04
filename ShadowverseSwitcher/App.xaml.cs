@@ -36,6 +36,7 @@ namespace ShadowServant
 
 			DispatcherHelper.UIDispatcher = this.Dispatcher;
 			MainNotifier.Current.Initialize();
+			Core.Current.FileManager.Init();
 			ViewModelRoot = new MainWindowViewModel();
 			this.MainWindow = new MainWindow { DataContext = ViewModelRoot };
 			this.MainWindow.Show();

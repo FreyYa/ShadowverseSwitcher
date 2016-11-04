@@ -17,6 +17,7 @@ namespace ShadowServant.Models
 		public delegate void EventHandler();
 		public EventHandler EndPopup;
 		#endregion
+
 		public PopupManage()
 		{
 			this.IsUsed = false;
