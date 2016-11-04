@@ -125,6 +125,19 @@ namespace ShadowServant.Models
 			LoadedList = new List<Account>();
 			FileLoad();
 		}
+		public bool RemoveUser(string user_name)
+		{
+			Core.Current.FileManager.LoadedList = new List<Account>(Core.Current.FileManager.LoadedList.Where(x => x.SteamName != user_name).ToList());
+			
+			var result= Core.Current.BinWriter.SaveBin();
+			if(result)
+			{
+				this.ChangeList();
+				return result;
+			}
+			else
+				return result;
+		}
 		private bool FileLoad()
 		{
 			return Core.Current.BinReader.ReadBin();

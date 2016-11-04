@@ -38,8 +38,9 @@ namespace ShadowServant.Models
 				}
 				return true;
 			}
-			catch
+			catch(Exception e)
 			{
+				Debug.WriteLine(e);
 				return false;
 			}
 			

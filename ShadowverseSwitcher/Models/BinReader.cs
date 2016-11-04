@@ -34,6 +34,7 @@ namespace ShadowServant.Models
 							temp.SteamName = reader.ReadString();
 							temp.Memo = reader.ReadString();
 							var header = reader.ReadBytes(12);
+							temp.Header = header;
 							temp.M3F1YS = reader.ReadBytes(BitConverter.ToInt32(header, 0));
 							temp.NnB = reader.ReadBytes(BitConverter.ToInt32(header, 4));
 							temp.MHx5cg = reader.ReadBytes(BitConverter.ToInt32(header, 8));

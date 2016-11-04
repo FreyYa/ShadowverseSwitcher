@@ -158,6 +158,17 @@ namespace ShadowServant.ViewModels
 			}
 			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 섀도우버스를 종료해주시기 바랍니다", null);
 		}
+		public void DeleteData()
+		{
+			if (this.Selected != null)
+			{
+				if (Core.Current.FileManager.RemoveUser(this.Selected.SteamName))
+					MainNotifier.Current.Show(App.ProductInfo.Title, "성공적으로 삭제되었습니다", null);
+				else MainNotifier.Current.Show(App.ProductInfo.Title, "파일 저장에 실패했습니다", null);
+			}
+			else
+				MainNotifier.Current.Show(App.ProductInfo.Title, "선택된 계정이 없습니다.\n계정을 선택하고 다시 시도해주세요", null);
+		}
 		public void SaveSetting()
 		{
 			var popup = new AccountCreateWindowViewModel();
