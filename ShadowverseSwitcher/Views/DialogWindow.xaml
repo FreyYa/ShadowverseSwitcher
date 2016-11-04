@@ -1,0 +1,47 @@
+﻿<metro:MetroWindow x:Class="ShadowServant.Views.DialogWindow"
+				   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+				   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+				   xmlns:local="clr-namespace:ShadowServant.Views"
+				   xmlns:viewmodels="clr-namespace:ShadowServant.ViewModels"
+				   xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+				   xmlns:metro2="http://schemes.grabacr.net/winfx/2015/personal/controls"
+				   mc:Ignorable="d"
+				   Title="{Binding Title}"
+				   Style="{DynamicResource MetroDialogStyleKey}"
+				   Background="{DynamicResource ThemeBrushKey}"
+				   Foreground="{DynamicResource ActiveForegroundBrushKey}"
+				   WindowStartupLocation="CenterScreen"
+				   Topmost="True"
+				   Height="180" Width="400">
+	<metro:MetroWindow.DataContext>
+		<viewmodels:DialogWindowViewModel/>
+	</metro:MetroWindow.DataContext>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<TextBlock VerticalAlignment="Center" Margin="20,0">
+			<Run Text="{Binding MainMessage}"/>
+		</TextBlock>
+
+		<TextBlock Text="{Binding Message}" Margin="20,3" Grid.Row="1"/>
+
+		<StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Right"
+					Margin="10">
+			<metro2:CallMethodButton Margin="10,5,0,5"
+									 Content="{Binding LeftMessage}"
+									 Padding="30,0"
+									 MethodName="Left" IsDefault="True"/>
+			<metro2:CallMethodButton Margin="10,5"
+									 Content="{Binding RightMessage}"
+									 Padding="30,0"
+									 MethodName="Right" IsCancel="True"/>
+		</StackPanel>
+	</Grid>
+</metro:MetroWindow>

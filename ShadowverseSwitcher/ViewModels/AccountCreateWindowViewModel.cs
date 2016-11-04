@@ -57,6 +57,7 @@ namespace ShadowServant.ViewModels
 		{
 			this.Title = "새 계정정보 추가";
 			this.AccountName = "";
+			this.Memo = "";
 		}
 		public void Confirm()
 		{

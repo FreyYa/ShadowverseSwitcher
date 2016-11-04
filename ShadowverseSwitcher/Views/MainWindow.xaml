@@ -24,6 +24,12 @@
 													  WindowType="{x:Type views:AccountCreateWindow}"
 													  IsOwned="False" />
 		</livet:InteractionMessageTrigger>
+		<livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+										 MessageKey="Show/InitDialog">
+			<livet:TransitionInteractionMessageAction Mode="NewOrActive"
+													  WindowType="{x:Type views:DialogWindow}"
+													  IsOwned="False" />
+		</livet:InteractionMessageTrigger>
 	</i:Interaction.Triggers>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -132,20 +138,21 @@
 				</GridView>
 			</ListView.View>
 		</ListView>
-		<StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+		<StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal"
+					HorizontalAlignment="Center">
 			<metro2:CallMethodButton Content="데이터 초기화"
 								 MethodName="InitSetting"
-								 MinWidth="110"
+								 MinWidth="170"
 								 Padding="30,6"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
 			<metro2:CallMethodButton Content="현재 데이터 저장"
 								 MethodName="SaveSetting"
-								 MinWidth="100"
+								 MinWidth="170"
 								 Padding="30,6"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
 			<metro2:CallMethodButton Content="선택된 데이터 로드"
 								 MethodName="LoadSetting"
-								 MinWidth="110"
+								 Width="170"
 								 Padding="30,6"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
 		</StackPanel>

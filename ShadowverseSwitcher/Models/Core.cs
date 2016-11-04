@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShadowServant.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,11 @@ namespace ShadowServant.Models
 		#endregion
 
 		public FileManager FileManager { get; set; }
+		public PopupManage PopupManage { get; set; }
 		public Core()
 		{
 			this.FileManager = new FileManager();
+			this.PopupManage = new PopupManage();
 		}
 	}
 }
