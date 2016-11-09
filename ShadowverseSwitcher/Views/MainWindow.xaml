@@ -138,29 +138,53 @@
 				</GridView>
 			</ListView.View>
 		</ListView>
-		<StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal"
-					HorizontalAlignment="Center">
-			<metro2:CallMethodButton Content="스팀초기화"
+		<StackPanel  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" >
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+				<metro2:CallMethodButton Content="스팀초기화"
 								 MethodName="InitSetting"
 								 Width="90"
 									 Padding="10,8"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
-			<metro2:CallMethodButton Content="현재 데이터 저장"
+				<metro2:CallMethodButton Content="현재 데이터 저장"
 								 MethodName="SaveSetting"
 								 Width="120"
 									 Padding="10,8"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
-			<metro2:CallMethodButton Content="선택된 데이터 로드"
+				<metro2:CallMethodButton Content="선택된 데이터 로드"
 								 MethodName="LoadSetting"
 								 Width="140"
 									 Padding="10,8"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
-			<metro2:CallMethodButton Content="선택된 데이터 삭제"
+				<metro2:CallMethodButton Content="선택된 데이터 삭제"
 								 MethodName="DeleteData"
 								 Width="140"
 									 Padding="10,8"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
+			</StackPanel>
+			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+				<metro2:CallMethodButton Content="Steam 경로 설정"
+								 MethodName="SteamPath"
+								 Width="110"
+									 Padding="10,8"
+								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
+				<metro2:CallMethodButton Content="언어팩 적용"
+								 MethodName="LanguagePatch"
+								 Width="95"
+									 Padding="10,8"
+								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
+				<metro2:CallMethodButton Content="언어팩 복원"
+								 MethodName="LanguageRollback"
+								 Width="95"
+									 Padding="10,8"
+								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
+				<metro2:CallMethodButton Content="영/일 전환"
+								 MethodName="SwitchLanguage"
+								 Width="95"
+									 Padding="10,8"
+								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
+			</StackPanel>
 		</StackPanel>
+		
 		<StackPanel Grid.Row="3" Margin="5" Grid.ColumnSpan="2">
 			<TextBlock Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
 				<Run Text="현재 선택된 계정: "/>

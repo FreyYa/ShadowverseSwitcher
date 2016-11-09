@@ -26,6 +26,8 @@ namespace ShadowServant
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
+
+			Settings.Load();
 			ProductInfo = new ProductInfo();
 			this.DispatcherUnhandledException += (sender, args) =>
 			{
@@ -43,6 +45,7 @@ namespace ShadowServant
 		protected override void OnExit(ExitEventArgs e)
 		{
 			base.OnExit(e);
+			Settings.Current.Save();
 			MainNotifier.Current.Dispose();
 		}
 		#region 리포트

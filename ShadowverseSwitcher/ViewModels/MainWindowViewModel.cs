@@ -175,6 +175,103 @@ namespace ShadowServant.ViewModels
 			var message = new TransitionMessage(popup, "Show/AccountCreateWindow");
 			this.Messenger.RaiseAsync(message);
 		}
+		public void SteamPath()
+		{
+			string output;
+			if (Settings.Current.SteamFolder != string.Empty)
+				output = Settings.Current.SteamFolder;
+			else
+				output = "";
+			System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+			if (output == "") dialog.Description = "스팀이 설치된 폴더를 선택해주세요.\n" + @"예)C:\Program Files (x86)\Steam";
+			else dialog.Description = "스팀이 설치된 폴더를 선택해주세요.\n현재폴더: " + output;
+			dialog.ShowNewFolderButton = true;
+			if (Directory.Exists(Settings.Current.SteamFolder)) dialog.SelectedPath = Settings.Current.SteamFolder;
+			dialog.ShowDialog();
+			string selected = dialog.SelectedPath;
+			Settings.Current.SteamFolder = selected;
+			Settings.Current.ShadowverseFolder = Path.Combine(selected, "steamapps", "common", "Shadowverse");
+		}
+		public void SetScreenShotFolder()
+		{
+			string output;
+			if (Settings.Current.ScreenShotFolder != string.Empty)
+				output = Settings.Current.ScreenShotFolder;
+			else
+				output = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+			System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+			dialog.Description = "스크린샷을 저장할 폴더를 선택해주세요.\n현재폴더: " + output;
+			dialog.ShowNewFolderButton = true;
+			dialog.SelectedPath = Settings.Current.ScreenShotFolder;
+			dialog.ShowDialog();
+			string selected = dialog.SelectedPath;
+			Settings.Current.ScreenShotFolder = selected;
+		}
+		public void LanguagePatch()
+		{
+			if (Directory.Exists(Settings.Current.SteamFolder))
+			{
+				if (Directory.Exists(Settings.Current.ShadowverseFolder))
+				{
+					ShadowShifter.Patcher.PatchLanguage(Settings.Current.ShadowverseFolder);
+				}
+				else
+				{
+					ShadowverseFolerSet();
+					ShadowShifter.Patcher.PatchLanguage(Settings.Current.ShadowverseFolder);
+
+				}
+			}
+			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
+		}
+
+		private void ShadowverseFolerSet()
+		{
+			string output;
+			if (Settings.Current.SteamFolder != string.Empty)
+				output = Settings.Current.SteamFolder;
+			else
+				output = "";
+			System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+			dialog.Description = "섀도우버스가 설치된 폴더를 선택해주세요.\n" + @"예)C:\Program Files (x86)\Steam\steamapps\common\Shadowverse";
+			dialog.ShowNewFolderButton = true;
+			if (Directory.Exists(Settings.Current.SteamFolder)) dialog.SelectedPath = Settings.Current.SteamFolder;
+			dialog.ShowDialog();
+			string selected = dialog.SelectedPath;
+			Settings.Current.ShadowverseFolder = selected;
+		}
+
+		public void LanguageRollback()
+		{
+			if (Directory.Exists(Settings.Current.SteamFolder))
+			{
+				if (Directory.Exists(Settings.Current.ShadowverseFolder))
+				{
+					ShadowShifter.Patcher.RollbackLanguage(Settings.Current.ShadowverseFolder);
+				}
+				else
+				{
+					ShadowverseFolerSet();
+					ShadowShifter.Patcher.RollbackLanguage(Settings.Current.ShadowverseFolder);
+				}
+			}
+			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
+		}
+		public void SwitchLanguage()
+		{
+			if (Directory.Exists(Settings.Current.SteamFolder))
+			{
+				if (Directory.Exists(Settings.Current.ShadowverseFolder))
+				{
+
+				}
+				else
+				{
+					ShadowverseFolerSet();
+				}
+			}
+			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
+		}
 		public void LoadSetting()
 		{
 			if (!ShadowStalker.Stalker.FindShadow())

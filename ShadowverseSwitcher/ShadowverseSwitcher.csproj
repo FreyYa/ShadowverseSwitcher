@@ -168,11 +168,15 @@
     <Compile Include="Models\BinReader.cs" />
     <Compile Include="Models\BinWriter.cs" />
     <Compile Include="Models\Core.cs" />
+    <Compile Include="Models\Data\Xml\XmlFileReader.cs" />
+    <Compile Include="Models\Data\Xml\XmlFileWriter.cs" />
+    <Compile Include="Models\Data\Xml\XmlSerializableDictionary.cs" />
     <Compile Include="Models\FileManager.cs" />
     <Compile Include="Models\Notifier\CustomSound.cs" />
     <Compile Include="Models\Notifier\MainNotifier.cs" />
     <Compile Include="Models\PopupManage.cs" />
     <Compile Include="Models\ProductInfo.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="ViewModels\AccountCreateWindowViewModel.cs" />
     <Compile Include="ViewModels\DialogWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -235,6 +239,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ShadowShifter\ShadowShifter.csproj">
+      <Project>{6f130a17-dc3b-4b24-934a-3da08d98d6a6}</Project>
+      <Name>ShadowShifter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ShadowStalker\ShadowStalker.csproj">
       <Project>{065d1f16-2c93-416b-a84f-12cccf36d505}</Project>
       <Name>ShadowStalker</Name>

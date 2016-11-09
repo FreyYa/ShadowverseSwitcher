@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowverseSwitcher", "Shad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowStalker", "ShadowStalker\ShadowStalker.csproj", "{065D1F16-2C93-416B-A84F-12CCCF36D505}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowShifter", "ShadowShifter\ShadowShifter.csproj", "{6F130A17-DC3B-4B24-934A-3DA08D98D6A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{065D1F16-2C93-416B-A84F-12CCCF36D505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{065D1F16-2C93-416B-A84F-12CCCF36D505}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{065D1F16-2C93-416B-A84F-12CCCF36D505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F130A17-DC3B-4B24-934A-3DA08D98D6A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F130A17-DC3B-4B24-934A-3DA08D98D6A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F130A17-DC3B-4B24-934A-3DA08D98D6A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F130A17-DC3B-4B24-934A-3DA08D98D6A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
