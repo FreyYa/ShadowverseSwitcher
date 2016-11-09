@@ -63,7 +63,7 @@ namespace ShadowServant.Models.Notifier
 				};
 			}
 		}
-		public void Show(string header, string body, Action activated, Action<Exception> failed = null)
+		public void Show(string header, string body, Action activated=null, Action<Exception> failed = null)
 		{
 			if (this.notifyIcon == null)
 				return;
