@@ -128,6 +128,33 @@ namespace ShadowShifter
 		/// <param name="TargetLanguage">타겟 언어를 설정합니다</param>
 		public static bool SwitchingLanguage(string TargetPath, bool IsEnglish)
 		{
+			var dllpath = Path.Combine(MainFolder, "dll");
+			var jppath = Path.Combine(MainFolder, "dll", "jp");
+			var enpath = Path.Combine(MainFolder, "dll", "en");
+			var datapath = Path.Combine(TargetPath, "Shadowverse_Data", "Managed");
+
+			string path = enpath;
+
+			if (!Directory.Exists(dllpath) ||
+				!Directory.Exists(jppath) ||
+				!Directory.Exists(enpath))
+			{
+				ErrorMsg = "언어 교체 파일이 없습니다";
+				return false;
+			}
+
+			if (!IsEnglish) path = jppath;
+
+			if (!File.Exists(Path.Combine(path, "Assembly-CSharp.dll")) ||
+				!File.Exists(Path.Combine(path, "Assembly-CSharp-firstpass.dll")))
+			{
+				ErrorMsg = "언어 교체 파일이 없습니다";
+				return false;
+			}
+
+			File.Copy(Path.Combine(path, "Assembly-CSharp.dll"), Path.Combine(datapath, "Assembly-CSharp.dll"),true);
+			File.Copy(Path.Combine(path, "Assembly-CSharp-firstpass.dll"), Path.Combine(datapath, "Assembly-CSharp-firstpass.dll"), true);
+
 			return true;
 		}
 	}
