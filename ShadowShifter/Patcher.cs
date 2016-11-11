@@ -1,19 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ShadowShifter
 {
-    public class Patcher
-    {
+	public class Patcher
+	{
+		public static string MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+
+		public static string ErrorMsg { get; set; }
+		public static Deflate Deflate { get; private set; }
+
+		public Patcher()
+		{
+			ErrorMsg = "";
+		}
 		/// <summary>
 		/// 언어팩을 적용합니다
 		/// </summary>
 		/// <param name="TargetPath">게임이 설치되어있는 경로</param>
 		public static bool PatchLanguage(string TargetPath)
 		{
+			var CyPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Cygames");
+
+			if (!Directory.Exists(Path.Combine(CyPath, "Shadowverse")))
+			{
+				ErrorMsg = "패치 대상 폴더가 존재하지않습니다";
+				return false;
+			}
+
+			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.zip")))
+			{
+				var patch_temp_path = Path.Combine(MainFolder, "Patch", "temp");
+
+				if (!Directory.Exists(patch_temp_path))
+					Directory.CreateDirectory(patch_temp_path);
+
+				Deflate.Current.ExtractZip(Path.Combine(MainFolder, "Patch", "ko-kr.zip"), patch_temp_path);
+				Console.WriteLine("압축해제 완료");
+
+				Deflate.Current.CopyFolder(Path.Combine(MainFolder, "Patch", "temp", "Shadowverse"), Path.Combine(CyPath, "Shadowverse"));
+
+				var datapath = Path.Combine(TargetPath, "Shadowverse_Data");
+				if (!Directory.Exists(datapath))
+				{
+					ErrorMsg = "패치 대상 폴더가 존재하지않습니다";
+					return false;
+				}
+
+				File.Copy(Path.Combine(MainFolder, "Patch", "temp", "resources.assets"), Path.Combine(datapath, "resources.assets"), true);
+
+
+				if (Directory.Exists(patch_temp_path))
+					Directory.Delete(patch_temp_path, true);
+			}
+			else
+			{
+				ErrorMsg = "패치 파일이 없습니다";
+				return false;
+			}
+
 			return true;
 		}
 		/// <summary>
@@ -22,6 +71,54 @@ namespace ShadowShifter
 		/// <param name="TargetPath">게임이 설치되어있는 경로</param>
 		public static bool RollbackLanguage(string TargetPath)
 		{
+			var CyPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Cygames");
+
+			if (!Directory.Exists(Path.Combine(CyPath, "Shadowverse")))
+			{
+				ErrorMsg = "롤백 대상 폴더가 존재하지않습니다";
+				return false;
+			}
+
+			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.zip")))
+			{
+				var patch_temp_path = Path.Combine(MainFolder, "Patch", "temp");
+
+				if (!Directory.Exists(patch_temp_path))
+					Directory.CreateDirectory(patch_temp_path);
+
+				Deflate.Current.ExtractZip(Path.Combine(MainFolder, "Patch", "ko-kr.zip"), patch_temp_path);
+
+				//패치 파일을 삭제
+				if (Directory.Exists(Path.Combine(patch_temp_path, "Shadowverse")))
+					Directory.Delete(Path.Combine(patch_temp_path, "Shadowverse"), true);
+
+				if (File.Exists(Path.Combine(patch_temp_path, "resources.assets")))
+					File.Delete(Path.Combine(patch_temp_path, "resources.assets"));
+
+				Deflate.Current.ExtractZip(Path.Combine(MainFolder, "Patch", "temp", "Shadowverse_jp_origin.zip"), patch_temp_path);
+				Console.WriteLine("압축해제 완료");
+
+				Deflate.Current.CopyFolder(Path.Combine(MainFolder, "Patch", "temp", "Shadowverse"), Path.Combine(CyPath, "Shadowverse"));
+
+				var datapath = Path.Combine(TargetPath, "Shadowverse_Data");
+				if (!Directory.Exists(datapath))
+				{
+					ErrorMsg = "패치 대상 폴더가 존재하지않습니다";
+					return false;
+				}
+
+				File.Copy(Path.Combine(MainFolder, "Patch", "temp", "resources.assets"), Path.Combine(datapath, "resources.assets"), true);
+
+
+				if (Directory.Exists(patch_temp_path))
+					Directory.Delete(patch_temp_path, true);
+			}
+			else
+			{
+				ErrorMsg = "패치 파일이 없습니다";
+				return false;
+			}
+
 			return true;
 		}
 		/// <summary>
@@ -29,9 +126,9 @@ namespace ShadowShifter
 		/// </summary>
 		/// <param name="TargetPath"></param>
 		/// <param name="TargetLanguage">타겟 언어를 설정합니다</param>
-		public static bool SwitchingLanguage(string TargetPath,bool IsEnglish)
+		public static bool SwitchingLanguage(string TargetPath, bool IsEnglish)
 		{
 			return true;
 		}
-    }
+	}
 }

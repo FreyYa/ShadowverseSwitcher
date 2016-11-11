@@ -105,14 +105,14 @@ namespace ShadowServant.ViewModels
 								if (ShadowShifter.Patcher.SwitchingLanguage(Settings.Current.ShadowverseFolder, true))
 									MainNotifier.Current.Show(App.ProductInfo.Title, "언어를 영어로 바꾸는데 성공했습니다.");
 								else
-									MainNotifier.Current.Show(App.ProductInfo.Title, "패치에 실패했습니다");
+									MainNotifier.Current.Show(App.ProductInfo.Title, "패치에 실패했습니다:\n" + ShadowShifter.Patcher.ErrorMsg);
 							}
 							else//일본어
 							{
-								if(ShadowShifter.Patcher.SwitchingLanguage(Settings.Current.ShadowverseFolder, false))
+								if (ShadowShifter.Patcher.SwitchingLanguage(Settings.Current.ShadowverseFolder, false))
 									MainNotifier.Current.Show(App.ProductInfo.Title, "언어를 일본어로 바꾸는데 성공했습니다.");
 								else
-									MainNotifier.Current.Show(App.ProductInfo.Title, "패치에 실패했습니다");
+									MainNotifier.Current.Show(App.ProductInfo.Title, "패치에 실패했습니다:\n" + ShadowShifter.Patcher.ErrorMsg);
 							}
 						}
 						break;
@@ -229,16 +229,21 @@ namespace ShadowServant.ViewModels
 		}
 		public void LanguagePatch()
 		{
-			if (Directory.Exists(Settings.Current.SteamFolder))
+			if (!ShadowStalker.Stalker.FindShadow())
 			{
-				if (!Directory.Exists(Settings.Current.ShadowverseFolder))
-					ShadowverseFolerSet();
-				if (ShadowShifter.Patcher.PatchLanguage(Settings.Current.ShadowverseFolder))
-					MainNotifier.Current.Show(App.ProductInfo.Title, "패치에 성공했습니다.");
-				else
-					MainNotifier.Current.Show(App.ProductInfo.Title, "패치에 실패했습니다");
+				if (Directory.Exists(Settings.Current.SteamFolder))
+				{
+					if (!Directory.Exists(Settings.Current.ShadowverseFolder))
+						ShadowverseFolerSet();
+					if (ShadowShifter.Patcher.PatchLanguage(Settings.Current.ShadowverseFolder))
+						MainNotifier.Current.Show(App.ProductInfo.Title, "패치에 성공했습니다.");
+					else
+						MainNotifier.Current.Show(App.ProductInfo.Title, "패치에 실패했습니다:\n" + ShadowShifter.Patcher.ErrorMsg);
+				}
+				else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
+
 			}
-			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
+			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 섀도우버스를 종료해주시기 바랍니다", null);
 		}
 
 		private void ShadowverseFolerSet()
@@ -259,34 +264,44 @@ namespace ShadowServant.ViewModels
 
 		public void LanguageRollback()
 		{
-			if (Directory.Exists(Settings.Current.SteamFolder))
+			if (!ShadowStalker.Stalker.FindShadow())
 			{
-				if (!Directory.Exists(Settings.Current.ShadowverseFolder))
-					ShadowverseFolerSet();
-				if (ShadowShifter.Patcher.RollbackLanguage(Settings.Current.ShadowverseFolder))
-					MainNotifier.Current.Show(App.ProductInfo.Title, "롤백에 성공했습니다.");
-				else
-					MainNotifier.Current.Show(App.ProductInfo.Title, "롤백에 실패했습니다");
+				if (Directory.Exists(Settings.Current.SteamFolder))
+				{
+					if (!Directory.Exists(Settings.Current.ShadowverseFolder))
+						ShadowverseFolerSet();
+					if (ShadowShifter.Patcher.RollbackLanguage(Settings.Current.ShadowverseFolder))
+						MainNotifier.Current.Show(App.ProductInfo.Title, "롤백에 성공했습니다.");
+					else
+						MainNotifier.Current.Show(App.ProductInfo.Title, "롤백에 실패했습니다");
+				}
+				else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
+
 			}
-			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
+			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 섀도우버스를 종료해주시기 바랍니다", null);
 		}
 		public void SwitchLanguage()
 		{
-			if (Directory.Exists(Settings.Current.SteamFolder))
+			if (!ShadowStalker.Stalker.FindShadow())
 			{
-				if (!Directory.Exists(Settings.Current.ShadowverseFolder))
-					ShadowverseFolerSet();
+				if (Directory.Exists(Settings.Current.SteamFolder))
+				{
+					if (!Directory.Exists(Settings.Current.ShadowverseFolder))
+						ShadowverseFolerSet();
 
-				var popup = new DialogWindowViewModel();
-				Core.Current.PopupManage.IsUsed = false;
-				Core.Current.PopupManage.Popup = PopupKind.Switch;
-				popup.MainMessage = "변경할 언어를 선택해주세요";
-				popup.LeftMessage = "영어";
-				popup.RightMessage = "일본어";
-				var message = new TransitionMessage(popup, "Show/InitDialog");
-				this.Messenger.RaiseAsync(message);
+					var popup = new DialogWindowViewModel();
+					Core.Current.PopupManage.IsUsed = false;
+					Core.Current.PopupManage.Popup = PopupKind.Switch;
+					popup.MainMessage = "변경할 언어를 선택해주세요";
+					popup.LeftMessage = "영어";
+					popup.RightMessage = "일본어";
+					var message = new TransitionMessage(popup, "Show/InitDialog");
+					this.Messenger.RaiseAsync(message);
+				}
+				else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
+
 			}
-			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
+			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 섀도우버스를 종료해주시기 바랍니다", null);
 		}
 		public void LoadSetting()
 		{
