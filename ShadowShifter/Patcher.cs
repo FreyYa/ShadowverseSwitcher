@@ -25,6 +25,7 @@ namespace ShadowShifter
 		public static bool PatchLanguage(string TargetPath)
 		{
 			var CyPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Cygames");
+			string file_name = string.Empty;
 
 			if (!Directory.Exists(Path.Combine(CyPath, "Shadowverse")))
 			{
@@ -32,14 +33,20 @@ namespace ShadowShifter
 				return false;
 			}
 
-			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.zip")))
+			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr")))
+				file_name = Path.Combine(MainFolder, "Patch", "ko-kr");
+			else if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.zip")))
+				file_name = Path.Combine(MainFolder, "Patch", "ko-kr.zip");
+			else file_name = string.Empty;
+
+			if (file_name != string.Empty)
 			{
 				var patch_temp_path = Path.Combine(MainFolder, "Patch", "temp");
 
 				if (!Directory.Exists(patch_temp_path))
 					Directory.CreateDirectory(patch_temp_path);
 
-				Deflate.Current.ExtractZip(Path.Combine(MainFolder, "Patch", "ko-kr.zip"), patch_temp_path);
+				Deflate.Current.ExtractZip(file_name, patch_temp_path);
 				Console.WriteLine("압축해제 완료");
 
 				Deflate.Current.CopyFolder(Path.Combine(MainFolder, "Patch", "temp", "Shadowverse"), Path.Combine(CyPath, "Shadowverse"));
@@ -78,15 +85,22 @@ namespace ShadowShifter
 				ErrorMsg = "롤백 대상 폴더가 존재하지않습니다";
 				return false;
 			}
+			var file_name = string.Empty;
 
-			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.zip")))
+			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr")))
+				file_name = Path.Combine(MainFolder, "Patch", "ko-kr");
+			else if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.zip")))
+				file_name = Path.Combine(MainFolder, "Patch", "ko-kr.zip");
+			else file_name = string.Empty;
+
+			if (file_name != string.Empty)
 			{
 				var patch_temp_path = Path.Combine(MainFolder, "Patch", "temp");
 
 				if (!Directory.Exists(patch_temp_path))
 					Directory.CreateDirectory(patch_temp_path);
 
-				Deflate.Current.ExtractZip(Path.Combine(MainFolder, "Patch", "ko-kr.zip"), patch_temp_path);
+				Deflate.Current.ExtractZip(file_name, patch_temp_path);
 
 				//패치 파일을 삭제
 				if (Directory.Exists(Path.Combine(patch_temp_path, "Shadowverse")))
@@ -152,7 +166,7 @@ namespace ShadowShifter
 				return false;
 			}
 
-			File.Copy(Path.Combine(path, "Assembly-CSharp.dll"), Path.Combine(datapath, "Assembly-CSharp.dll"),true);
+			File.Copy(Path.Combine(path, "Assembly-CSharp.dll"), Path.Combine(datapath, "Assembly-CSharp.dll"), true);
 			File.Copy(Path.Combine(path, "Assembly-CSharp-firstpass.dll"), Path.Combine(datapath, "Assembly-CSharp-firstpass.dll"), true);
 
 			return true;
