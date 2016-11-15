@@ -55,6 +55,7 @@ namespace ShadowServant.ViewModels
 			{
 				switch (Core.Current.PopupManage.Popup)
 				{
+					#region 초기화
 					case PopupKind.Init:
 						if (!Core.Current.PopupManage.IsUsed)
 						{
@@ -73,6 +74,14 @@ namespace ShadowServant.ViewModels
 									var key = Registry.CurrentUser.OpenSubKey(@"Software\Cygames\Shadowverse", true);
 
 									var valList = key.GetValueNames().ToList();
+
+									if (valList.Any(x => x == "M3F1YSNkOnF0_h4073495316"))
+										key.DeleteValue("M3F1YSNkOnF0_h4073495316");
+									if (valList.Any(x => x == "MHx5cg==_h786395497"))
+										key.DeleteValue("MHx5cg==_h786395497");
+									if (valList.Any(x => x == "NnB/ZDJpMHx5cg==_h354593472"))
+										key.DeleteValue("NnB/ZDJpMHx5cg==_h354593472");
+
 									if (valList.Any(x => x == "HOME_CARD_INDEX_h3315159488"))
 										key.DeleteValue("HOME_CARD_INDEX_h3315159488");
 									if (valList.Any(x => x == "LAST_BATTLE_DECK_ID_h4121485982"))
@@ -96,6 +105,8 @@ namespace ShadowServant.ViewModels
 							else MainNotifier.Current.Show(App.ProductInfo.Title, "섀도우버스의 설정정보가 없습니다", null);
 						}
 						break;
+					#endregion
+					#region 일/영 스위치
 					case PopupKind.Switch:
 						if (!Core.Current.PopupManage.IsUsed)
 						{
@@ -116,6 +127,8 @@ namespace ShadowServant.ViewModels
 							}
 						}
 						break;
+					#endregion
+					#region 데이터 로드
 					case PopupKind.Load:
 						if (!Core.Current.PopupManage.IsUsed)
 						{
@@ -157,6 +170,7 @@ namespace ShadowServant.ViewModels
 							}
 						}
 						break;
+						#endregion
 				}
 
 			};
