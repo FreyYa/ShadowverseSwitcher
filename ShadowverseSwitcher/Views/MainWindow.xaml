@@ -182,6 +182,11 @@
 								 Width="95"
 									 Padding="10,8"
 								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />
+				<!--<metro2:CallMethodButton Content="POST test"
+								 MethodName="PostTest"
+								 Width="95"
+									 Padding="10,8"
+								 Margin="6" HorizontalAlignment="Left" VerticalAlignment="Top" />-->
 			</StackPanel>
 		</StackPanel>
 		

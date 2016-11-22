@@ -10,6 +10,9 @@ using ShadowServant.Models.Notifier;
 using System.IO;
 using ShadowServant.Models;
 using Livet.Messaging;
+using System.Net;
+using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace ShadowServant.ViewModels
 {
@@ -175,6 +178,29 @@ namespace ShadowServant.ViewModels
 
 			};
 			#endregion
+		}
+		public void PostTest()
+		{
+			try
+			{
+				string LoginURL = @"https://shadowverse-portal.com/api/v1/deck_code/publish?format=json&lang=en";
+
+				WebClient webClient = new WebClient();
+
+				NameValueCollection formData = new NameValueCollection();
+
+				formData["hash"] = @"1.1.61jJY.61jJY.61jJY.61k2Q.61k2Q.61k2Q.61k32.61k32.61k32.61NLI.61QWQ.61QWQ.61QWQ.5zvAi.5zvAi.5zvAi.61oCC.61oCC.61oCC.65cLM.5zvvQ.5zvvQ.5zvvQ.65YC2.65YC2.65YC2.61qeS.61qeS.61qeS.61Q1A.61Q1A.61Q1A.61lmu.61lmu.65enI.61oww.61oww.61oww.61lmk.61lmk";
+				formData["csrf_token"] = "";
+
+				byte[] responseBytes = webClient.UploadValues(LoginURL, "POST", formData);
+				string responsefromserver = Encoding.UTF8.GetString(responseBytes);
+
+				webClient.Dispose();
+				Debug.WriteLine(responsefromserver);
+			}
+			catch
+			{
+			}
 		}
 		public void InitSetting()
 		{
