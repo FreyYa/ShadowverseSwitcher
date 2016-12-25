@@ -198,8 +198,9 @@ namespace ShadowServant.ViewModels
 				webClient.Dispose();
 				Debug.WriteLine(responsefromserver);
 			}
-			catch
+			catch(Exception ex)
 			{
+				Debug.WriteLine(ex);
 			}
 		}
 		public void InitSetting()
