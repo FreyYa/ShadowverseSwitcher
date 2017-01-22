@@ -198,7 +198,7 @@ namespace ShadowServant.ViewModels
 				webClient.Dispose();
 				Debug.WriteLine(responsefromserver);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
 			}
@@ -236,22 +236,37 @@ namespace ShadowServant.ViewModels
 			var message = new TransitionMessage(popup, "Show/AccountCreateWindow");
 			this.Messenger.RaiseAsync(message);
 		}
-		public void SteamPath()
+		private void _steamPath(bool reSetting = false)
 		{
+			if(reSetting)
+				MainNotifier.Current.Show("경로 설정 오류", "해당 경로에 섀도우버스가 설치되어있지 않습니다", null);
 			string output;
 			if (Settings.Current.SteamFolder != string.Empty)
 				output = Settings.Current.SteamFolder;
 			else
 				output = "";
+
 			System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-			if (output == "") dialog.Description = "스팀이 설치된 폴더를 선택해주세요.\n" + @"예)C:\Program Files (x86)\Steam";
-			else dialog.Description = "스팀이 설치된 폴더를 선택해주세요.\n현재폴더: " + output;
+			if (output == "") dialog.Description = "섀도우버스가 설치된 SteamLibrary 폴더 혹은 스팀이 설치되어있는 폴더를 선택해주세요.\n" + @"예)C:\Program Files (x86)\Steam, \n   D:\SteamLibrary";
+			else dialog.Description = "섀도우버스가 설치된 SteamLibrary 폴더 혹은 스팀이 설치되어있는 폴더를 선택해주세요.\n현재폴더: " + output;
 			dialog.ShowNewFolderButton = true;
 			if (Directory.Exists(Settings.Current.SteamFolder)) dialog.SelectedPath = Settings.Current.SteamFolder;
-			dialog.ShowDialog();
+			var dia_result = dialog.ShowDialog();
 			string selected = dialog.SelectedPath;
+
+			//설정된 경로에 섀도우버스가 없으면 무한반복
+			if (!Directory.Exists(Path.Combine(selected, "steamapps", "common", "Shadowverse")) && dia_result == System.Windows.Forms.DialogResult.OK)
+			{
+				_steamPath(true);
+				return;
+			}
+
 			Settings.Current.SteamFolder = selected;
 			Settings.Current.ShadowverseFolder = Path.Combine(selected, "steamapps", "common", "Shadowverse");
+		}
+		public void SteamPath()
+		{
+			_steamPath();
 		}
 		public void SetScreenShotFolder()
 		{

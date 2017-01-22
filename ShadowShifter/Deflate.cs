@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,10 +22,34 @@ namespace ShadowShifter
 
 		#endregion
 
+		public static string MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
-		public void ExtractZip(string fileLocation, string ExtractLocation)
+		public void ExtractZip(string fileLocation, string ExtractLocation,bool decrypt)
 		{
-			ZipFile.ExtractToDirectory(fileLocation, ExtractLocation);
+			if(decrypt)
+			{
+				var bytes = File.ReadAllBytes(fileLocation);
+				byte[] key = new byte[30];
+				var decrypted = Decrypt(bytes, key);
+				File.WriteAllBytes(Path.Combine(MainFolder, "patch", "temp.sv"), decrypted);
+				ZipFile.ExtractToDirectory(Path.Combine(MainFolder, "patch", "temp.sv"), ExtractLocation);
+				File.Delete(Path.Combine(MainFolder, "patch", "temp.sv"));
+			}
+			else
+			{
+				ZipFile.ExtractToDirectory(fileLocation, ExtractLocation);
+			}
+		}
+		public static byte[] Decrypt(byte[] toDecrypt, byte[] key)
+		{
+			byte[] keyArray = key;
+			byte[] toEncryptArray = toDecrypt;
+			RijndaelManaged rDel = new RijndaelManaged();
+			rDel.Key = keyArray;
+			rDel.Mode = CipherMode.ECB;
+			rDel.Padding = PaddingMode.PKCS7;
+			ICryptoTransform cTransform = rDel.CreateDecryptor();
+			return cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
 		}
 		/// <summary>
 		/// 폴더 복사 작업이 끝나면 sourceFolder를 삭제한다.

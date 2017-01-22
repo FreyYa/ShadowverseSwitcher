@@ -33,10 +33,8 @@ namespace ShadowShifter
 				return false;
 			}
 
-			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr")))
-				file_name = Path.Combine(MainFolder, "Patch", "ko-kr");
-			else if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.zip")))
-				file_name = Path.Combine(MainFolder, "Patch", "ko-kr.zip");
+			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.sw")))
+				file_name = Path.Combine(MainFolder, "Patch", "ko-kr.sw");
 			else file_name = string.Empty;
 
 			if (file_name != string.Empty)
@@ -46,7 +44,7 @@ namespace ShadowShifter
 				if (!Directory.Exists(patch_temp_path))
 					Directory.CreateDirectory(patch_temp_path);
 
-				Deflate.Current.ExtractZip(file_name, patch_temp_path);
+				Deflate.Current.ExtractZip(file_name, patch_temp_path,true);
 				Console.WriteLine("압축해제 완료");
 
 				Deflate.Current.CopyFolder(Path.Combine(MainFolder, "Patch", "temp", "Shadowverse"), Path.Combine(CyPath, "Shadowverse"));
@@ -58,8 +56,8 @@ namespace ShadowShifter
 					return false;
 				}
 
-				File.Copy(Path.Combine(MainFolder, "Patch", "temp", "resources.assets"), Path.Combine(datapath, "resources.assets"), true);
-
+				File.Copy(Path.Combine(MainFolder, "Patch", "temp","Steam", "resources.assets"), Path.Combine(datapath, "resources.assets"), true);
+				Deflate.Current.CopyFolder(Path.Combine(MainFolder, "Patch", "temp", "Steam", "StreamingAssets"), Path.Combine(datapath));
 
 				if (Directory.Exists(patch_temp_path))
 					Directory.Delete(patch_temp_path, true);
@@ -87,10 +85,8 @@ namespace ShadowShifter
 			}
 			var file_name = string.Empty;
 
-			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr")))
-				file_name = Path.Combine(MainFolder, "Patch", "ko-kr");
-			else if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.zip")))
-				file_name = Path.Combine(MainFolder, "Patch", "ko-kr.zip");
+			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.sw")))
+				file_name = Path.Combine(MainFolder, "Patch", "ko-kr.sw");
 			else file_name = string.Empty;
 
 			if (file_name != string.Empty)
@@ -100,16 +96,16 @@ namespace ShadowShifter
 				if (!Directory.Exists(patch_temp_path))
 					Directory.CreateDirectory(patch_temp_path);
 
-				Deflate.Current.ExtractZip(file_name, patch_temp_path);
+				Deflate.Current.ExtractZip(file_name, patch_temp_path,true);
 
 				//패치 파일을 삭제
 				if (Directory.Exists(Path.Combine(patch_temp_path, "Shadowverse")))
 					Directory.Delete(Path.Combine(patch_temp_path, "Shadowverse"), true);
 
-				if (File.Exists(Path.Combine(patch_temp_path, "resources.assets")))
-					File.Delete(Path.Combine(patch_temp_path, "resources.assets"));
+				if (Directory.Exists(Path.Combine(patch_temp_path, "Steam")))
+					Directory.Delete(Path.Combine(patch_temp_path, "Steam"),true);
 
-				Deflate.Current.ExtractZip(Path.Combine(MainFolder, "Patch", "temp", "Shadowverse_jp_origin.zip"), patch_temp_path);
+				Deflate.Current.ExtractZip(Path.Combine(MainFolder, "Patch", "temp", "Shadowverse_jp_origin.zip"), patch_temp_path,false);
 				Console.WriteLine("압축해제 완료");
 
 				Deflate.Current.CopyFolder(Path.Combine(MainFolder, "Patch", "temp", "Shadowverse"), Path.Combine(CyPath, "Shadowverse"));
@@ -121,8 +117,8 @@ namespace ShadowShifter
 					return false;
 				}
 
-				File.Copy(Path.Combine(MainFolder, "Patch", "temp", "resources.assets"), Path.Combine(datapath, "resources.assets"), true);
-
+				File.Copy(Path.Combine(MainFolder, "Patch", "temp","Steam", "resources.assets"), Path.Combine(datapath, "resources.assets"), true);
+				Deflate.Current.CopyFolder(Path.Combine(MainFolder, "Patch", "temp", "Steam", "StreamingAssets"), Path.Combine(datapath));
 
 				if (Directory.Exists(patch_temp_path))
 					Directory.Delete(patch_temp_path, true);
