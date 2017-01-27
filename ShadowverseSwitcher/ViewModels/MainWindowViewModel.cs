@@ -236,37 +236,86 @@ namespace ShadowServant.ViewModels
 			var message = new TransitionMessage(popup, "Show/AccountCreateWindow");
 			this.Messenger.RaiseAsync(message);
 		}
+		public void SteamPath()
+		{
+			string result = _steamAutoSearch();
+
+			if (result != string.Empty)
+			{
+				Settings.Current.ShadowverseFolder = result;
+				MainNotifier.Current.Show("경로설정", "섀도우버스 설치 경로 검색을 완료하였습니다.", null);
+			}
+			else
+				_steamPath();
+		}
 		private void _steamPath(bool reSetting = false)
 		{
-			if(reSetting)
+			if (reSetting)
 				MainNotifier.Current.Show("경로 설정 오류", "해당 경로에 섀도우버스가 설치되어있지 않습니다", null);
 			string output;
-			if (Settings.Current.SteamFolder != string.Empty)
-				output = Settings.Current.SteamFolder;
+			if (Settings.Current.ShadowverseFolder != string.Empty)
+				output = Settings.Current.ShadowverseFolder;
 			else
 				output = "";
 
 			System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-			if (output == "") dialog.Description = "섀도우버스가 설치된 SteamLibrary 폴더 혹은 스팀이 설치되어있는 폴더를 선택해주세요.\n" + @"예)C:\Program Files (x86)\Steam, \n   D:\SteamLibrary";
-			else dialog.Description = "섀도우버스가 설치된 SteamLibrary 폴더 혹은 스팀이 설치되어있는 폴더를 선택해주세요.\n현재폴더: " + output;
+			if (output == "") dialog.Description = "Shadowverse.exe가 있는 폴더를 선택해주세요" + '\n' + "ex)c:\\Program Files(x86)\\Steam\\steamapps\\common\\Shadowverse";
+			else dialog.Description = "Shadowverse.exe가 있는 폴더를 선택해주세요" + '\n' + "현재폴더: " + output;
 			dialog.ShowNewFolderButton = true;
-			if (Directory.Exists(Settings.Current.SteamFolder)) dialog.SelectedPath = Settings.Current.SteamFolder;
+			if (Directory.Exists(Settings.Current.ShadowverseFolder)) dialog.SelectedPath = Settings.Current.ShadowverseFolder;
 			var dia_result = dialog.ShowDialog();
 			string selected = dialog.SelectedPath;
 
 			//설정된 경로에 섀도우버스가 없으면 무한반복
-			if (!Directory.Exists(Path.Combine(selected, "steamapps", "common", "Shadowverse")) && dia_result == System.Windows.Forms.DialogResult.OK)
+			if (!File.Exists(Path.Combine(selected, "shadowverse.exe")) && dia_result == System.Windows.Forms.DialogResult.OK)
 			{
 				_steamPath(true);
 				return;
 			}
-
-			Settings.Current.SteamFolder = selected;
-			Settings.Current.ShadowverseFolder = Path.Combine(selected, "steamapps", "common", "Shadowverse");
+			Settings.Current.ShadowverseFolder = selected;
 		}
-		public void SteamPath()
+		private string _steamAutoSearch()
 		{
-			_steamPath();
+			DriveInfo[] allDrives = DriveInfo.GetDrives();
+			string default_dir_path = Path.Combine("steamapps", "common", "Shadowverse");
+			string default_path = Path.Combine(default_dir_path, "Shadowverse.exe");
+			string sub_check_path = Path.Combine(default_dir_path, "Shadowverse_Data", "resources.assets");
+			string temp_path;
+
+			foreach (var drive in allDrives)
+			{
+				//먼저 steamLibrary를 탐색
+				temp_path = Path.Combine(drive.RootDirectory.FullName, "SteamLibrary", default_path);
+				if (File.Exists(temp_path))
+				{
+					//혹시 모르니 추가 리소스도 검색
+					if (File.Exists(Path.Combine(drive.RootDirectory.FullName, "SteamLibrary", sub_check_path)))
+						return Path.Combine(drive.RootDirectory.FullName, "SteamLibrary", default_dir_path);
+				}
+				//이후 program files 폴더를 탐색
+				//64비트인 경우 (x86)탐색
+				if (Environment.Is64BitOperatingSystem)
+				{
+					temp_path = Path.Combine(drive.RootDirectory.FullName, "Program Files (x86)", "Steam", default_path);
+					if (File.Exists(temp_path))
+					{
+						//혹시 모르니 추가 리소스도 검색
+						if (File.Exists(Path.Combine(drive.RootDirectory.FullName, "Program Files (x86)", "Steam", sub_check_path)))
+							return Path.Combine(drive.RootDirectory.FullName, "Program Files (x86)", "Steam", default_dir_path); ;
+					}
+				}
+				else
+				{
+					temp_path = Path.Combine(drive.RootDirectory.FullName, "Program Files", "Steam", default_path);
+					if (File.Exists(temp_path))
+					{
+						//혹시 모르니 추가 리소스도 검색
+						if (File.Exists(Path.Combine(drive.RootDirectory.FullName, "Program Files", "Steam", sub_check_path)))
+							return Path.Combine(drive.RootDirectory.FullName, "Program Files", "Steam", default_dir_path); ;
+					}
+				}
+			}
+			return string.Empty;
 		}
 		public void SetScreenShotFolder()
 		{
@@ -287,52 +336,35 @@ namespace ShadowServant.ViewModels
 		{
 			if (!ShadowStalker.Stalker.FindShadow())
 			{
-				if (Directory.Exists(Settings.Current.SteamFolder))
+				if (!Directory.Exists(Settings.Current.ShadowverseFolder))
+					SteamPath();
+				if (Directory.Exists(Settings.Current.ShadowverseFolder))
 				{
-					if (!Directory.Exists(Settings.Current.ShadowverseFolder))
-						ShadowverseFolerSet();
 					if (ShadowShifter.Patcher.PatchLanguage(Settings.Current.ShadowverseFolder))
 						MainNotifier.Current.Show(App.ProductInfo.Title, "패치에 성공했습니다.");
 					else
 						MainNotifier.Current.Show(App.ProductInfo.Title, "패치에 실패했습니다:\n" + ShadowShifter.Patcher.ErrorMsg);
+
 				}
 				else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
-
 			}
 			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 섀도우버스를 종료해주시기 바랍니다", null);
-		}
-
-		private void ShadowverseFolerSet()
-		{
-			string output;
-			if (Settings.Current.SteamFolder != string.Empty)
-				output = Settings.Current.SteamFolder;
-			else
-				output = "";
-			System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-			dialog.Description = "섀도우버스가 설치된 폴더를 선택해주세요.\n" + @"예)C:\Program Files (x86)\Steam\steamapps\common\Shadowverse";
-			dialog.ShowNewFolderButton = true;
-			if (Directory.Exists(Settings.Current.SteamFolder)) dialog.SelectedPath = Settings.Current.SteamFolder;
-			dialog.ShowDialog();
-			string selected = dialog.SelectedPath;
-			Settings.Current.ShadowverseFolder = selected;
 		}
 
 		public void LanguageRollback()
 		{
 			if (!ShadowStalker.Stalker.FindShadow())
 			{
-				if (Directory.Exists(Settings.Current.SteamFolder))
+				if (!Directory.Exists(Settings.Current.ShadowverseFolder))
+					SteamPath();
+				if (Directory.Exists(Settings.Current.ShadowverseFolder))
 				{
-					if (!Directory.Exists(Settings.Current.ShadowverseFolder))
-						ShadowverseFolerSet();
 					if (ShadowShifter.Patcher.RollbackLanguage(Settings.Current.ShadowverseFolder))
 						MainNotifier.Current.Show(App.ProductInfo.Title, "롤백에 성공했습니다.");
 					else
 						MainNotifier.Current.Show(App.ProductInfo.Title, "롤백에 실패했습니다");
 				}
 				else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
-
 			}
 			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 섀도우버스를 종료해주시기 바랍니다", null);
 		}
@@ -340,11 +372,10 @@ namespace ShadowServant.ViewModels
 		{
 			if (!ShadowStalker.Stalker.FindShadow())
 			{
-				if (Directory.Exists(Settings.Current.SteamFolder))
+				if (!Directory.Exists(Settings.Current.ShadowverseFolder))
+					SteamPath();
+				if (Directory.Exists(Settings.Current.ShadowverseFolder))
 				{
-					if (!Directory.Exists(Settings.Current.ShadowverseFolder))
-						ShadowverseFolerSet();
-
 					var popup = new DialogWindowViewModel();
 					Core.Current.PopupManage.IsUsed = false;
 					Core.Current.PopupManage.Popup = PopupKind.Switch;
@@ -355,7 +386,6 @@ namespace ShadowServant.ViewModels
 					this.Messenger.RaiseAsync(message);
 				}
 				else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 Steam폴더 경로를 설정해주세요", null, null);
-
 			}
 			else MainNotifier.Current.Show(App.ProductInfo.Title, "먼저 섀도우버스를 종료해주시기 바랍니다", null);
 		}

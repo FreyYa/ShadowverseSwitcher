@@ -32,6 +32,11 @@ namespace ShadowShifter
 				ErrorMsg = "패치 대상 폴더가 존재하지않습니다";
 				return false;
 			}
+			if(!File.Exists(Path.Combine(CyPath, "Shadowverse","a", "master_cardnametextmaster.unity3d")))
+			{
+				ErrorMsg = "아직 섀도우버스 데이터 다운로드가 완료되지 않았습니다.";
+				return false;
+			}
 
 			if (File.Exists(Path.Combine(MainFolder, "Patch", "ko-kr.sw")))
 				file_name = Path.Combine(MainFolder, "Patch", "ko-kr.sw");

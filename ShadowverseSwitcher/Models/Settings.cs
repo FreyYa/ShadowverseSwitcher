@@ -43,7 +43,6 @@ namespace ShadowServant.Models
 			{
 				SettingsVersion = CurrentSettingsVersion,
 				ScreenShotFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
-				SteamFolder = "",
 			};
 		}
 
@@ -79,24 +78,6 @@ namespace ShadowServant.Models
 				if (this._ScreenShotFolder != value)
 				{
 					this._ScreenShotFolder = value;
-					this.RaisePropertyChanged();
-				}
-			}
-		}
-		#endregion
-
-		#region 스팀 폴더 저장
-
-		private string _SteamFolder;
-
-		public string SteamFolder
-		{
-			get { return this._SteamFolder; }
-			set
-			{
-				if (this._SteamFolder != value)
-				{
-					this._SteamFolder = value;
 					this.RaisePropertyChanged();
 				}
 			}
